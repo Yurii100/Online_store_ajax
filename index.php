@@ -9,7 +9,8 @@
         <script src="https://kit.fontawesome.com/8e05dfae1d.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="content">
+        <?php require './blocks/header.php' ?>
+        <main class="content">
             <h1>Наши Товары</h1>
             
             <div id="categories-container" class="categories"></div>
@@ -17,7 +18,7 @@
             <div id="products-container" class="products"></div>
 
             <div id="pagination-container" class="pagination"></div>
-        </div>
+        </main>
         <script src="./js/shop.js"></script>
     </body>
 </html>
