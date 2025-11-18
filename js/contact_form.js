@@ -1,13 +1,10 @@
 $(document).ready(function() {
     $('#mess_send').on('click', function(e) {
         e.preventDefault(); // Предотвращаем стандартную отправку формы
-
-        // 1. Собираем данные формы
         let username = $('#username').val();
         let email = $('#email').val();
         let message = $('#mess').val();
 
-        // 2. Очищаем блок ошибок и скрываем его
         let errorBlock = $('#error-block');
         errorBlock.text('').hide(); 
         
@@ -17,10 +14,9 @@ $(document).ready(function() {
             return false;
         };
 
-        // 3. AJAX-запрос
         $.ajax({
             url: 'ajax/mail.php', 
-            type: 'POST', // Используем POST для отправки данных формы
+            type: 'POST', 
             data: {
                 username: username,
                 email: email,
@@ -29,17 +25,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    // Успех: Выводим сообщение и очищаем форму
                     alert(response.message); 
                     $('form')[0].reset(); // Очистка формы
                     
                 } else {
-                    // Ошибка: Выводим сообщение об ошибке
                     errorBlock.text(response.message).show();
                 }
             },
             error: function(xhr, status, error) {
-                // Общая ошибка AJAX-запроса (например, 500 Internal Server Error)
                 errorBlock.text('Ошибка связи с сервером.').show();
                 console.error("AJAX Error (Mail):", status, error);
             }
