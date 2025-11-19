@@ -27,5 +27,6 @@
             <button type="button" id="mess_send">Отправить</button>
         </form>
     </div>
+    <script src="./js/contact_form.js"></script>
 </body>
 </html>
