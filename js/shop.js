@@ -1,14 +1,16 @@
 $(document).ready(function() {
-    function loadProducts(page, category='') {
+    function loadProducts(page, category='', sortBy='created_at', sortDir='DESC') {
         // Устанавливаем Loader
         $('#products-container').html('<p>Загрузка товаров...</p>'); 
         
         $.ajax({
             url: 'ajax/load_products.php', 
             type: 'GET',
-            data: { // Передаем номер страницы и категорию на сторону сервера для sql-запроса в базу данных.
+            data: { 
                 page: page,
-                category: category 
+                category: category,
+                sortBy: sortBy,  // <-- НОВЫЙ ПАРАМЕТР: Поле сортировки (price, title, created_at)
+                sortDir: sortDir // <-- НОВЫЙ ПАРАМЕТР: Направление (ASC или DESC) 
             }, 
             dataType: 'json',
             success: function(response) {
@@ -119,6 +121,21 @@ $(document).ready(function() {
         });
     };
 
+    $('#sort-by').on('change', function() {
+        // 1. Получаем выбранный <option>
+        let selectedOption = $(this).find('option:selected'); 
+    
+        // 2. Извлекаем поле сортировки (value) и направление (data-dir)
+        let sortBy = selectedOption.val();
+        let sortDir = selectedOption.data('dir');
+
+        // 3. Получаем текущую категорию из контейнера пагинации(это нужно, чтобы при сортировке не сбрасывался фильтр категорий)
+        let currentCategory = $('#pagination-container').data('category') || '';
+    
+        // 4. Загружаем товары с 1-й страницы с новыми параметрами сортировки
+        loadProducts(1, currentCategory, sortBy, sortDir);
+    });
+
     loadCategories(); // Загрузка и привязка категорий
-    loadProducts(1, ''); // Первоначальная загрузка при открытии страницы (страница 1)
+    loadProducts(1, '', 'created_at', 'DESC'); // Первоначальная загрузка при открытии страницы (страница 1)
 });

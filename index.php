@@ -15,6 +15,18 @@
             
             <div id="categories-container" class="categories"></div>
 
+            <div id="sort-container" class="sort-controls">
+                <label for="sort-by">Сортировать по:</label>
+                <select id="sort-by">
+                    <option value="created_at" data-dir="DESC">Дате (Новые)</option>
+                    <option value="created_at" data-dir="ASC">Дате (Старые)</option>
+                    <option value="price" data-dir="ASC">Цене (По возрастанию)</option>
+                    <option value="price" data-dir="DESC">Цене (По убыванию)</option>
+                    <option value="title" data-dir="ASC">Алфавиту (А-Я)</option>
+                    <option value="title" data-dir="DESC">Алфавиту (Я-А)</option>
+                </select>
+            </div>
+            
             <div id="products-container" class="products"></div>
 
             <div id="pagination-container" class="pagination"></div>
