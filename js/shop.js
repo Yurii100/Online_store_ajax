@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    let currentSortBy = 'created_at';
+    let currentSortDir = 'DESC';
+
     function loadProducts(page, category='', sortBy='created_at', sortDir='DESC') {
         // Устанавливаем Loader
         $('#products-container').html('<p>Загрузка товаров...</p>'); 
@@ -77,7 +80,7 @@ $(document).ready(function() {
                         selectedCategory = ''; // Пустая строка - признак "ВСЕ" для PHP
                     };
                     
-                    loadProducts(1, selectedCategory); // Запускаем загрузку товаров С ПЕРВОЙ СТРАНИЦЫ для новой категории
+                    loadProducts(1, selectedCategory, currentSortBy, currentSortDir); // Запускаем загрузку товаров С ПЕРВОЙ СТРАНИЦЫ для новой категории
                 });
                 $('#categories-container .category-link[data-category="All"]').addClass('active'); // При первой загрузке делаем ссылку 'all' активной
             },
@@ -116,7 +119,7 @@ $(document).ready(function() {
             let currentCategory = $(this).closest('#pagination-container').data('category');
 
             if (newPage) {
-                loadProducts(newPage, currentCategory); // Загружаем новую страницу и категорию
+                loadProducts(newPage, currentCategory, currentSortBy, currentSortDir); // Загружаем новую страницу и категорию
             };
         });
     };
@@ -126,16 +129,16 @@ $(document).ready(function() {
         let selectedOption = $(this).find('option:selected'); 
     
         // 2. Извлекаем поле сортировки (value) и направление (data-dir)
-        let sortBy = selectedOption.val();
-        let sortDir = selectedOption.data('dir');
+        currentSortBy = selectedOption.val();
+        currentSortDir = selectedOption.data('dir');
 
         // 3. Получаем текущую категорию из контейнера пагинации(это нужно, чтобы при сортировке не сбрасывался фильтр категорий)
         let currentCategory = $('#pagination-container').data('category') || '';
     
         // 4. Загружаем товары с 1-й страницы с новыми параметрами сортировки
-        loadProducts(1, currentCategory, sortBy, sortDir);
+        loadProducts(1, currentCategory, currentSortBy, currentSortDir);
     });
 
     loadCategories(); // Загрузка и привязка категорий
-    loadProducts(1, '', 'created_at', 'DESC'); // Первоначальная загрузка при открытии страницы (страница 1)
+    loadProducts(1, '', currentSortBy, currentSortDir); // Первоначальная загрузка при открытии страницы (страница 1)
 });
