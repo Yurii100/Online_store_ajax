@@ -1,8 +1,11 @@
 $(document).ready(function() {
     let currentSortBy = 'created_at';
     let currentSortDir = 'DESC';
+    let currentCategory = '';
+    let currentSearch = '';
+    let searchTimeout = null; // Переменная для хранения таймера (для Debouncing)
 
-    function loadProducts(page, category='', sortBy='created_at', sortDir='DESC') {
+    function loadProducts(page, category='', sortBy='created_at', sortDir='DESC', searchQuery='') {
         // Устанавливаем Loader
         $('#products-container').html('<p>Загрузка товаров...</p>'); 
         
@@ -13,7 +16,8 @@ $(document).ready(function() {
                 page: page,
                 category: category,
                 sortBy: sortBy,  // <-- НОВЫЙ ПАРАМЕТР: Поле сортировки (price, title, created_at)
-                sortDir: sortDir // <-- НОВЫЙ ПАРАМЕТР: Направление (ASC или DESC) 
+                sortDir: sortDir, // <-- НОВЫЙ ПАРАМЕТР: Направление (ASC или DESC) 
+                searchQuery: searchQuery // <-- ПЕРЕДАЕМ ПАРАМЕТР ПОИСКА
             }, 
             dataType: 'json',
             success: function(response) {
@@ -72,15 +76,15 @@ $(document).ready(function() {
                     $('#categories-container .category-link').removeClass('active');
                     $(this).addClass('active');
 
-                    let selectedCategory = $(this).data('category'); // Получаем имя категории из data-атрибута
-
-                    console.log('Категория:', selectedCategory, 'Тип:', typeof selectedCategory);
+                    currentCategory = $(this).data('category'); // Получаем имя категории из data-атрибута
                     
-                    if (selectedCategory.toLowerCase() === 'all') { // Если выбрана "all", отправляем пустую строку или 'all', чтобы PHP-скрипт знал, что нужно сбросить WHERE-условие
-                        selectedCategory = ''; // Пустая строка - признак "ВСЕ" для PHP
+                    if (currentCategory.toLowerCase() === 'all') { // Если выбрана "all", отправляем пустую строку или 'all', чтобы PHP-скрипт знал, что нужно сбросить WHERE-условие
+                        currentCategory = ''; // Пустая строка - признак "ВСЕ" для PHP
                     };
+
+                    currentSearch = $('#search-input').val() || '';
                     
-                    loadProducts(1, selectedCategory, currentSortBy, currentSortDir); // Запускаем загрузку товаров С ПЕРВОЙ СТРАНИЦЫ для новой категории
+                    loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch); // Запускаем загрузку товаров С ПЕРВОЙ СТРАНИЦЫ для новой категории
                 });
                 $('#categories-container .category-link[data-category="All"]').addClass('active'); // При первой загрузке делаем ссылку 'all' активной
             },
@@ -116,29 +120,49 @@ $(document).ready(function() {
         $('#pagination-container').off('click').on('click', 'a', function(e) {
             e.preventDefault(); // Останавливаем стандартное поведение ссылки
             let newPage = $(this).data('page'); // Получаем номер страницы из data-page по которой кликнули
-            let currentCategory = $(this).closest('#pagination-container').data('category');
+            currentCategory = $(this).closest('#pagination-container').data('category');
+            currentSearch = $('#search-input').val() || '';
 
             if (newPage) {
-                loadProducts(newPage, currentCategory, currentSortBy, currentSortDir); // Загружаем новую страницу и категорию
+                loadProducts(newPage, currentCategory, currentSortBy, currentSortDir, currentSearch); // Загружаем новую страницу и категорию
             };
         });
     };
 
     $('#sort-by').on('change', function() {
-        // 1. Получаем выбранный <option>
+        // Получаем выбранный <option>
         let selectedOption = $(this).find('option:selected'); 
     
-        // 2. Извлекаем поле сортировки (value) и направление (data-dir)
+        // Извлекаем поле сортировки (value) и направление (data-dir)
         currentSortBy = selectedOption.val();
         currentSortDir = selectedOption.data('dir');
 
-        // 3. Получаем текущую категорию из контейнера пагинации(это нужно, чтобы при сортировке не сбрасывался фильтр категорий)
-        let currentCategory = $('#pagination-container').data('category') || '';
+        // ОБНОВЛЯЕМ: Читаем и сохраняем текущее состояние фильтра и поиска
+        currentCategory = $('#pagination-container').data('category') || '';
+        currentSearch = $('#search-input').val() || '';
     
-        // 4. Загружаем товары с 1-й страницы с новыми параметрами сортировки
-        loadProducts(1, currentCategory, currentSortBy, currentSortDir);
+        // Загружаем товары с 1-й страницы с новыми параметрами сортировки
+        loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch);
+    });
+
+    // ОБРАБОТЧИК ПОИСКА "НА ЛЕТУ"
+    $('#search-input').on('input', function() {
+        // 1. Очищаем предыдущий таймер, если он был установлен
+        clearTimeout(searchTimeout);
+
+        // 2. Получаем текущий текст из поля ввода
+        currentSearch = $(this).val();
+
+        // 3. Устанавливаем новый таймер (задержка 500 миллисекунд)
+        searchTimeout = setTimeout(function() {
+            // Читаем категорию из DOM (наиболее актуальный источник)
+            currentCategory = $('#pagination-container').data('category') || '';
+
+            // Вызываем загрузку товаров с новым запросом, сохраняя текущую сортировку и категорию
+            loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch);
+        }, 500); // Задержка в 0.5 секунды
     });
 
     loadCategories(); // Загрузка и привязка категорий
-    loadProducts(1, '', currentSortBy, currentSortDir); // Первоначальная загрузка при открытии страницы (страница 1)
+    loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch); // Первоначальная загрузка при открытии страницы (страница 1)
 });

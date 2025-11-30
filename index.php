@@ -12,6 +12,11 @@
         <?php require './blocks/header.php' ?>
         <main class="content">
             <h1>Наши Товары</h1>
+
+            <div class="search-controls">
+                <label for="search-input">Поиск по названию/описанию:</label>
+                <input type="text" id="search-input" placeholder="Введите название товара...">
+            </div>
             
             <div id="categories-container" class="categories"></div>
 
