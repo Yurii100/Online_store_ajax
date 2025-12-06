@@ -1,0 +1,186 @@
+/* ========================================================================= */
+/* 1. ГЛОБАЛЬНЫЙ СБРОС (RESET) */
+/* ========================================================================= */
+
+* { /* Обнуляем отступы и границы */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4; 
+    color: #333; 
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #007bff; 
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ========================================================================= */
+/* 2. СТРУКТУРА И КОНТЕЙНЕРЫ (LAYOUT) */
+/* ========================================================================= */
+
+main.content {
+    width: 90%;
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.search-controls, #sort-container {
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#search-input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 300px;
+    transition: border-color 0.3s;
+}
+
+#search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#sort-by {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* ========================================================================= */
+/* 3. КОМПОНЕНТЫ: КАТЕГОРИИ */
+/* ========================================================================= */
+
+#categories-container.categories {
+    display: flex;
+    gap: 10px; 
+    margin-bottom: 30px;
+    flex-wrap: wrap; 
+}
+
+.category-link {
+    padding: 8px 15px;
+    border: 1px solid #007bff;
+    color: #007bff;
+    border-radius: 20px;
+    transition: all 0.3s;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.category-link:hover {
+    background: #007bff;
+    color: white;
+}
+
+.category-link.active {
+    background: #0056b3;
+    color: white;
+    border-color: #0056b3;
+    font-weight: bold;
+}
+
+/* ========================================================================= */
+/* 4. КОМПОНЕНТЫ: ТОВАРЫ (PRODUCT GRID) */
+/* ========================================================================= */
+
+#products-container.products { /* Создаем адаптивную сетку */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px; 
+    margin-top: 20px;
+}
+
+.product-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    border: 1px solid #eee;
+}
+
+.product-item:hover {
+    transform: translateY(-5px); /* Эффект подъема при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-item h3 {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.6em;
+    color: #dc3545; /* Красный для цены */
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.product-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ========================================================================= */
+/* 5. ПАГИНАЦИЯ И СООБЩЕНИЯ */
+/* ========================================================================= */
+
+#pagination-container.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    gap: 5px;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #007bff;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #f0f0f0;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+#status-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+    color: #dc3545; /* Цвет для ошибки/сообщения об отсутствии товаров */
+}
