@@ -161,7 +161,7 @@ main.content {
 
 .pagination a {
     padding: 8px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #007bff;
     border-radius: 4px;
     color: #007bff;
     transition: background-color 0.3s;

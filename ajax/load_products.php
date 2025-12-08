@@ -23,7 +23,7 @@ if ($sortDir !== 'ASC' && $sortDir !== 'DESC') {
 }
 
 // Получение текущей страницы из AJAX-запроса (GET)
-$CURRENT_PAGE = ($_GET['page'] ?? 1);
+$CURRENT_PAGE = ((int)$_GET['page'] ?? 1);
 
 // Проверка безопасности, $CURRENT_PAGE должен быть больше 0
 if ($CURRENT_PAGE < 1) {
@@ -82,8 +82,8 @@ header('Content-Type: application/json');
 $RESPONSE = [
     'products' => $PRODUCTS, // Сами данные товаров
     'pagination' => [
-        'currentPage' => $CURRENT_PAGE,
-        'totalPages' => $TOTAL_PAGES,
+        'currentPage' => (int)$CURRENT_PAGE,
+        'totalPages' => (int)$TOTAL_PAGES,
     ]
 ];
 
