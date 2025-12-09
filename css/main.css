@@ -28,10 +28,10 @@ a {
 }
 
 /* ========================================================================= */
-/* 2. СТРУКТУРА И КОНТЕЙНЕРЫ (LAYOUT) */
+/* 2. СТРУКТУРА И КОНТЕЙНЕРЫ (LAYOUT, GRID) */
 /* ========================================================================= */
 
-main.content {
+main.content, .container {
     width: 90%;
     max-width: 1300px;
     margin: 20px auto;
@@ -39,6 +39,21 @@ main.content {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.nav {
+    grid-area: nav;
+}
+
+.tel {
+    grid-area: tel;
+}
+
+.top-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: "nav nav . tel";
 }
 
 .search-controls, #sort-container {
@@ -168,13 +183,14 @@ main.content {
 }
 
 .pagination a:hover:not(.active) {
-    background-color: #f0f0f0;
+    background-color: #007bff;
+    color: white;
 }
 
 .pagination a.active {
-    background-color: #007bff;
+    background-color: #0056b3;
     color: white;
-    border-color: #007bff;
+    border-color: #0056b3;
     font-weight: bold;
 }
 
