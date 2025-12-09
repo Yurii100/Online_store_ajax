@@ -51,9 +51,9 @@ main.content, .container {
 
 .top-menu {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
-    grid-template-areas: "nav nav . tel";
+    grid-template-areas: "nav . tel";
 }
 
 .search-controls, #sort-container {
