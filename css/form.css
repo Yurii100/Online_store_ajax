@@ -1,0 +1,36 @@
+.user-contacts {
+    width: 90%;
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.user-contacts form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    width: 600px;
+    border: 3px solid #007bff;
+    padding: 15px;
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+}
+
+.user-contacts form input, textarea, button, #error-block {
+    margin-bottom: 10px; 
+    padding: 8px;
+    width: 90%;
+}
+
+.user-contacts form textarea {
+    resize: none;
+    height: 200%;
+}

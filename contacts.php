@@ -5,12 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Контакты</title>
         <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/form.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/8e05dfae1d.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <?php require './blocks/header.php' ?>
-        <div>
+        <div class="user-contacts">
             <h1>Контакты</h1>
             <form> 
                 <label for="username">Ваше имя: </label>
