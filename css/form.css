@@ -17,11 +17,11 @@
     width: 600px;
     border: 3px solid #007bff;
     padding: 15px;
-    border-radius: 10%;
     -webkit-border-radius: 10%;
     -moz-border-radius: 10%;
     -ms-border-radius: 10%;
     -o-border-radius: 10%;
+    border-radius: 10%;
 }
 
 .user-contacts form input, textarea, button, #error-block {
