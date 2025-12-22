@@ -130,6 +130,12 @@ main.content, .container {
     margin-top: 20px;
 }
 
+.product-link {
+    display: block; /* Сделать ссылку блочным элементом, чтобы она занимала весь товар */
+    text-decoration: none;
+    color: inherit; /* Наследование цвета текста */
+}
+
 .product-item {
     background: white;
     padding: 20px;
@@ -208,4 +214,136 @@ main.content, .container {
     padding: 40px;
     font-size: 1.2em;
     color: #dc3545; /* Цвет для ошибки/сообщения об отсутствии товаров */
+}
+
+/* ========================================================================= */
+/* 6. СТРАНИЦА ДЕТАЛЕЙ ТОВАРА (PRODUCT DETAIL PAGE) */
+/* ========================================================================= */
+
+/* Контейнер для изображения и информации */
+.product-info-wrapper {
+    display: flex;
+    gap: 40px;
+    padding: 30px 0;
+}
+
+/* Блок изображения */
+.product-image-large {
+    flex: 0 0 45%; /* Фиксированная ширина 45% */
+    max-width: 500px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-image-large img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Блок деталей (заголовок, цена, описание) */
+.product-details {
+    flex: 1; /* Занимает оставшееся пространство */
+}
+
+.product-details h1 {
+    font-size: 2.8em;
+    text-align: left;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.product-details .price {
+    font-size: 2em;
+    color: #dc3545; /* Красный цвет для цены */
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.product-details .price span {
+    font-size: 1.2em; /* Число цены немного крупнее */
+}
+
+.product-details .category {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Полное описание */
+.description-full h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Кнопка */
+.buy-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+}
+
+.buy-button:hover {
+    background-color: #0056b3;
+}
+
+/* Ссылка "Назад" */
+.back-link {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 10px 0;
+    font-size: 1.1em;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* ========================================================================= */
+/* 7. АДАПТИВНОСТЬ (MEDIA QUERIES) */
+/* ========================================================================= */
+
+/* Применимо для экранов шириной 768px и меньше (планшеты и телефоны) */
+@media (max-width: 768px) {
+    
+    /* Детали товара: переключаем с горизонтального на вертикальное расположение */
+    .product-info-wrapper {
+        flex-direction: column;
+    }
+
+    /* Изображение занимает полную ширину */
+    .product-image-large {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Уменьшаем шрифты */
+    .product-details h1 {
+        font-size: 2em;
+    }
+    
+    /* Уменьшаем отступы основного контейнера */
+    main.content {
+        width: 95%;
+        padding: 10px;
+    }
+
+    /* Убираем лишние колонки в верхнем меню (если они были) */
+    .top-menu {
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "nav tel";
+    }
 }

@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Про нас</title>
+        <link rel="icon" type="img/png" href="./img/favicon.png">
         <link rel="stylesheet" href="./css/main.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/8e05dfae1d.js" crossorigin="anonymous"></script>

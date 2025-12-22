@@ -31,11 +31,13 @@ $(document).ready(function() {
                         // Генерируем HTML для каждого товара
                         let productHtml = `
                             <div class="product-item">
-                                <img src="img/${product.img}" class="product-image">
-                                <h3>${product.title}</h3>
-                                <p>Цена: ${product.price} $.</p>
-                                <p>Категория: ${product.category}</p>
-                                <p>Описание: ${product.intro}</p>
+                                <a href="product.php?id=${product.id}" class="product-link">
+                                    <img src="img/${product.img}" class="product-image">
+                                    <h3>${product.title}</h3>
+                                    <p>Цена: ${product.price} $.</p>
+                                    <p>Категория: ${product.category}</p>
+                                    <p>Описание: ${product.intro}</p>
+                                </a>
                             </div>
                         `;
                         $('#products-container').append(productHtml);
