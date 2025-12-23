@@ -29,7 +29,7 @@ function loadProductDetails(id) {
                             <p>${product.description}</p>
                         </div>
 
-                        <button class="buy-button">Добавить в корзину</button>
+                        <button class="buy-button" data-product-id="${product.id}">🛒 В корзину</button>
                     </div>
                 </div>
                 <a href="index.php" class="back-link">← Вернуться в каталог</a>
@@ -42,4 +42,36 @@ function loadProductDetails(id) {
             container.html('<p class="error-message">Ошибка загрузки деталей товара. Пожалуйста, попробуйте позже.</p>');
         }
     });
-}
+};
+
+function updateCartCount(count) { // Функция для обновления счетчика корзины
+    $('#cart-count').text(count);
+};
+
+$(document).ready(function() {
+    $(document).on('click', '.buy-button', function() {
+        const productId = $(this).data('product-id');
+        const quantity = 1; // Пока что добавляем по 1
+
+        $.ajax({
+            url: 'ajax/add_to_cart.php',
+            method: 'POST',
+            data: { 
+                product_id: productId,
+                quantity: quantity 
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    updateCartCount(response.total_items); // Обновляем счетчик товаров в шапке сайта
+                    alert('Товар добавлен! Всего товаров: ' + response.total_items); // Оповещение пользователя (можно заменить модальным окном)
+                } else {
+                    alert('Ошибка: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('Произошла ошибка при обращении к серверу.');
+            }
+        });
+    });
+});

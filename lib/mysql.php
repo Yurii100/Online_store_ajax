@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $user = 'root';
 $password = 'root';
 $db = 'php_online_store';

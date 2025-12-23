@@ -47,6 +47,9 @@ main.content, .container {
 
 .tel {
     grid-area: tel;
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
 }
 
 .top-menu {
@@ -54,6 +57,11 @@ main.content, .container {
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
     grid-template-areas: "nav . tel";
+}
+
+.tel .separator {
+    /* Обеспечиваем, что разделитель будет рядом */
+    display: inline-block;
 }
 
 .search-controls, #sort-container {
@@ -84,6 +92,22 @@ main.content, .container {
     border-radius: 4px;
     background-color: #fff;
     cursor: pointer;
+}
+
+.cart-widget a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #007bff; /* Красный или другой заметный цвет */
+    padding: 5px 2px;
+    border-radius: 4px;
+}
+
+.cart-widget #cart-count {
+    color: #007bff;
+    padding: 2px 2px;
+    border-radius: 50%; /* Делает кружок */
+    font-size: 0.9em;
+    margin-left: 5px;
 }
 
 /* ========================================================================= */

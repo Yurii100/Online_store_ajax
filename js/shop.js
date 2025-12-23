@@ -38,6 +38,7 @@ $(document).ready(function() {
                                     <p>Категория: ${product.category}</p>
                                     <p>Описание: ${product.intro}</p>
                                 </a>
+                                <button class="add-to-cart-btn" data-product-id="${product.id}">🛒 В корзину</button>
                             </div>
                         `;
                         $('#products-container').append(productHtml);
@@ -98,6 +99,36 @@ $(document).ready(function() {
             }
         });
     };
+
+    function updateCartCount(count) { // Функция для обновления счетчика корзины
+        $('#cart-count').text(count);
+    };
+
+    $(document).on('click', '.add-to-cart-btn', function() {
+        const productId = $(this).data('product-id');
+        const quantity = 1; // Пока что добавляем по 1
+
+        $.ajax({
+            url: 'ajax/add_to_cart.php',
+            method: 'POST',
+            data: { 
+                product_id: productId,
+                quantity: quantity 
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    updateCartCount(response.total_items); // Обновляем счетчик товаров в шапке сайта
+                    alert('Товар добавлен! Всего товаров: ' + response.total_items); // Оповещение пользователя (можно заменить модальным окном)
+                } else {
+                    alert('Ошибка: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('Произошла ошибка при обращении к серверу.');
+            }
+        });
+    });
 
     function generatePagination(currentPage, totalPages, category) {
         $('#pagination-container').data('category', category);
