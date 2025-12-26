@@ -337,7 +337,87 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 7. АДАПТИВНОСТЬ (MEDIA QUERIES) */
+/* 7. СТРАНИЦА КОРЗИНЫ (CART PAGE) */
+/* ========================================================================= */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-table th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+}
+
+.cart-table td:last-child {
+    text-align: center; /* Выравнивание кнопок */
+}
+
+/* Поле ввода количества */
+.item-quantity {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Кнопка удаления */
+.remove-item-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-item-btn:hover {
+    background-color: #c82333;
+}
+
+/* Итоговая сумма */
+.cart-summary {
+    text-align: right;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #333;
+}
+
+.cart-summary h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: #1e7e34;
+}
+
+/* ========================================================================= */
+/* 8. АДАПТИВНОСТЬ (MEDIA QUERIES) */
 /* ========================================================================= */
 
 /* Применимо для экранов шириной 768px и меньше (планшеты и телефоны) */
