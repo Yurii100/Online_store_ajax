@@ -16,7 +16,10 @@
     <body>
         <?php require './blocks/header.php' ?>
         <main class="content container">
-            <h2>🛒 Ваша корзина</h2>
+            <h2>
+                🛒 Ваша корзина 
+                <button id="clear-cart-btn" class="cart-action-btn">Удалить всё</button>
+            </h2>
             <div id="cart-container">
                 <p>Загрузка данных корзины...</p>
             </div>

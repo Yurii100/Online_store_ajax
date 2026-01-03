@@ -14,49 +14,74 @@ if ($product_id === 0 || $quantity < 1) { // Проверка на коррек�
     exit();
 }
 
-// 2. Инициализация корзины в сессии (если её нет)
+// 2. Инициализация корзины
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// 3. Обновление или добавление товара
-if (isset($_SESSION['cart'][$product_id])) { // Товар уже есть: увеличиваем количество
-    $_SESSION['cart'][$product_id]['quantity'] += $quantity;
-} else {
-    try {
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
-        $stmt->execute([':id' => $product_id]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+// 3. Получаем актуальные данные о товаре 
+try {
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
+    $stmt->execute([':id' => $product_id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($product) {
-            $_SESSION['cart'][$product_id] = [
-                'quantity' => $quantity,
-                'title' => $product['title'],
-                'price' => $product['price']
-            ];
-        } else {
-            $response['message'] = 'Товар не найден.';
-            echo json_encode($response);
-            exit();
-        }
-    } catch (PDOException $e) {
-        // Обработка ошибки
-        $response['message'] = 'Ошибка БД.';
+    if (!$product) {
+        $response['message'] = 'Товар не найден.';
         echo json_encode($response);
         exit();
     }
+} catch (PDOException $e) { // Обработка ошибки
+    $response['message'] = 'Ошибка БД при получении данных о товаре.';
+    echo json_encode($response);
+    exit();
 }
 
-// 4. Расчет общего количества товаров в корзине
+$available_stock = (int)($product['stock'] ?? 0); // Получаем остаток со склада
+$current_cart_quantity = $_SESSION['cart'][$product_id]['quantity'] ?? 0; // Получаем текущее количество товара в корзине
+$new_total_quantity = $current_cart_quantity + $quantity; // Сколько всего товаров будет в корзине, если мы добавим запрошенное количество
+
+// 4. Проверка остатков
+if ($available_stock < 1) { // Проверка 1: Товар полностью закончился
+    if (isset($_SESSION['cart'][$product_id])) { // Если товара нет, но он был в корзине (старый товар) - удаляем его
+        unset($_SESSION['cart'][$product_id]);
+    }
+    $response['message'] = 'Извините, товар закончился.';
+    echo json_encode($response);
+    exit;
+}
+
+if ($new_total_quantity > $available_stock) { // Проверка 2: Превышение остатка
+    $final_quantity = $available_stock; // Устанавливаем максимальное разрешенное количество
+    
+    if ($current_cart_quantity < $available_stock) { // Если товар уже был в корзине и пользователь пытается добавить еще:
+         $response['message'] = "Добавлено только до максимального остатка {$available_stock} шт.";
+    } else {
+        $response['message'] = "Вы уже достигли максимального остатка ({$available_stock} шт.). Добавление невозможно.";
+    }
+    
+} else { // Если все в порядке, берем полное запрошенное количество
+    $final_quantity = $new_total_quantity;
+}
+
+// 5. Обновление сессии 
+$_SESSION['cart'][$product_id] = [
+    'title' => $product['title'], 
+    'price' => $product['price'],
+    'quantity' => $final_quantity // Используем количество, прошедшее валидацию
+];
+
+// 6. Расчет общего количества товаров в корзине
 $total_items = 0;
 foreach ($_SESSION['cart'] as $item) {
     $total_items += $item['quantity'];
 }
 
-// 5. Успешный ответ
+// 7. Успешный ответ
 $response['success'] = true;
 $response['total_items'] = $total_items;
-$response['message'] = 'Товар добавлен в корзину.';
-echo json_encode($response);
 
-?>
+if (empty($response['message'])) {
+    $response['message'] = 'Товар добавлен в корзину.';
+}
+
+echo json_encode($response);

@@ -32,6 +32,7 @@
             <div id="products-container" class="products"></div>
             <div id="pagination-container" class="pagination"></div>
         </main>
+        <?php require './blocks/footer.php' ?>
         <script src="./js/shop.js"></script>
     </body>
 </html>

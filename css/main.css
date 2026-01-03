@@ -110,6 +110,23 @@ main.content, .container {
     margin-left: 5px;
 }
 
+.social {
+    display: flex; /* Используем Flexbox для иконок */
+    gap: 100px; /* Расстояние между иконками */
+    margin-left: 600px;
+}
+
+.social i {
+    font-size: 24px; /* Размер иконок */
+    color: #ccc; /* Светлый серый цвет */
+    transition: color 0.3s ease; /* Плавный переход цвета при наведении */
+}
+
+.social i:hover {
+    color: #007bff; /* Изменение цвета на акцентный */
+    cursor: pointer;
+}
+
 /* ========================================================================= */
 /* 3. КОМПОНЕНТЫ: КАТЕГОРИИ */
 /* ========================================================================= */
@@ -373,7 +390,7 @@ main.content, .container {
 }
 
 /* Кнопка удаления */
-.remove-item-btn {
+.cart-action-btn {
     background-color: #dc3545;
     color: white;
     border: none;
@@ -383,7 +400,7 @@ main.content, .container {
     transition: background-color 0.2s;
 }
 
-.remove-item-btn:hover {
+.cart-action-btn:hover {
     background-color: #c82333;
 }
 
