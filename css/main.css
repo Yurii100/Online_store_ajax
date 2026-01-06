@@ -27,8 +27,80 @@ a {
     color: inherit;
 }
 
+/* -------------------------------------------
+   2. ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ ЛОГО, ПОИСКА И АВТОРИЗАЦИИ
+   ------------------------------------------- */
+.main-controls {
+    display: flex;
+    align-items: center; /* Выравнивание элементов по вертикали */
+    justify-content: space-between; /* Распределение пространства между 3 блоками */
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 1. Логотип и слоган */
+.site-info {
+    display: flex;
+    align-items: center;
+    /* Занимает минимально необходимое место */
+}
+
+.logo {
+    height: 40px; 
+    width: auto;
+    margin-right: 15px;
+}
+
+.slogan {
+    font-size: 14px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* 2. Блок поиска (должен быть растянут) */
+.search-block {
+    flex-grow: 1; /* Позволяет блоку поиска занять все доступное центральное пространство */
+    padding: 0 40px; /* Отступы от логотипа и контролов пользователя */
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    width: 100%; /* Растягиваем само поле ввода на всю ширину .search-block */
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Скрываем label, так как placeholder достаточно информативен */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+/* 3. Контролы пользователя (Вход/Кабинет) */
+.user-auth-area a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap; /* Предотвращаем перенос ссылок на новую строку */
+}
+
+.user-auth-area a:hover {
+    text-decoration: underline;
+}
+
 /* ========================================================================= */
-/* 2. СТРУКТУРА И КОНТЕЙНЕРЫ (LAYOUT, GRID) */
+/* 3. СТРУКТУРА И КОНТЕЙНЕРЫ (LAYOUT, GRID) */
 /* ========================================================================= */
 
 main.content, .container {
@@ -128,7 +200,7 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 3. КОМПОНЕНТЫ: КАТЕГОРИИ */
+/* 4. КОМПОНЕНТЫ: КАТЕГОРИИ */
 /* ========================================================================= */
 
 #categories-container.categories {
@@ -161,7 +233,7 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 4. КОМПОНЕНТЫ: ТОВАРЫ (PRODUCT GRID) */
+/* 5. КОМПОНЕНТЫ: ТОВАРЫ (PRODUCT GRID) */
 /* ========================================================================= */
 
 #products-container.products { /* Создаем адаптивную сетку */
@@ -219,8 +291,24 @@ main.content, .container {
     border-radius: 4px;
 }
 
+.add-to-cart-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -ms-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}
+
 /* ========================================================================= */
-/* 5. ПАГИНАЦИЯ И СООБЩЕНИЯ */
+/* 6. ПАГИНАЦИЯ И СООБЩЕНИЯ */
 /* ========================================================================= */
 
 #pagination-container.pagination {
@@ -258,7 +346,7 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 6. СТРАНИЦА ДЕТАЛЕЙ ТОВАРА (PRODUCT DETAIL PAGE) */
+/* 7. СТРАНИЦА ДЕТАЛЕЙ ТОВАРА (PRODUCT DETAIL PAGE) */
 /* ========================================================================= */
 
 /* Контейнер для изображения и информации */
@@ -354,7 +442,7 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 7. СТРАНИЦА КОРЗИНЫ (CART PAGE) */
+/* 8. СТРАНИЦА КОРЗИНЫ (CART PAGE) */
 /* ========================================================================= */
 
 .cart-table {
@@ -433,38 +521,144 @@ main.content, .container {
     background-color: #1e7e34;
 }
 
+/* --------------------
+   9. СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН (АУТЕНТИФИКАЦИЯ)
+   -------------------- */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; 
+    z-index: 100; /* Поверх всего контента */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Темный фон */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Отступ сверху и по центру */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 400px; /* Ограничиваем ширину */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.auth-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.auth-btn:hover {
+    background-color: #0056b3;
+}
+
+.auth-message {
+    margin-top: 15px;
+    text-align: center;
+    color: red;
+}
+
 /* ========================================================================= */
-/* 8. АДАПТИВНОСТЬ (MEDIA QUERIES) */
+/* 10. АДАПТИВНОСТЬ (MEDIA QUERIES) */
 /* ========================================================================= */
 
 /* Применимо для экранов шириной 768px и меньше (планшеты и телефоны) */
 @media (max-width: 768px) {
-    
-    /* Детали товара: переключаем с горизонтального на вертикальное расположение */
     .product-info-wrapper {
         flex-direction: column;
     }
 
-    /* Изображение занимает полную ширину */
     .product-image-large {
         flex: 0 0 100%;
         max-width: 100%;
     }
 
-    /* Уменьшаем шрифты */
     .product-details h1 {
         font-size: 2em;
     }
     
-    /* Уменьшаем отступы основного контейнера */
     main.content {
         width: 95%;
         padding: 10px;
     }
 
-    /* Убираем лишние колонки в верхнем меню (если они были) */
     .top-menu {
         grid-template-columns: 1fr auto;
         grid-template-areas: "nav tel";
+    }
+}
+
+@media (max-width: 900px) {
+    .main-controls {
+        flex-wrap: wrap; 
+        justify-content: center;
+    }
+
+    .site-info, .user-auth-area {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .search-block {
+        order: 3; 
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-controls {
+        justify-content: flex-start; 
+    }
+
+    .slogan {
+        display: none;
+    }
+    
+    .main-controls {
+        padding: 10px 0;
     }
 }
