@@ -13,12 +13,15 @@
 </head>
 <body>
     <?php require './blocks/header.php' ?>
+
     <main class="content container">
         <div id="product-detail-container">
             <p>Загрузка информации о товаре...</p>
         </div>
     </main>
+
     <script src="./js/product.js"></script> 
+
     <script>
         const PRODUCT_ID = <?php echo json_encode($product_id); ?>;
         loadProductDetails(PRODUCT_ID);

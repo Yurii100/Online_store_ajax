@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once '../lib/mysql.php'; // Правильный путь к файлу подключения к БД
+require_once '../lib/mysql.php'; 
 
 $product_id = (int)$_GET['id'] ?? 0;
 

@@ -12,8 +12,11 @@
     </head>
     <body>
         <?php require './blocks/header.php' ?>
+        
         <div class="user-contacts">
+
             <h1>Контакты</h1>
+
             <form> 
                 <label for="username">Ваше имя: </label>
                 <input type="text" name="username" id="username">
@@ -28,7 +31,9 @@
 
                 <button type="button" id="mess_send">Отправить</button>
             </form>
+            
         </div>
+
         <script src="./js/contact_form.js"></script>
     </body>
 </html>

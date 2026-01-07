@@ -521,9 +521,9 @@ main.content, .container {
     background-color: #1e7e34;
 }
 
-/* --------------------
-   9. СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН (АУТЕНТИФИКАЦИЯ)
-   -------------------- */
+/* ========================================================================= */
+/* 9. СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН (АУТЕНТИФИКАЦИЯ)
+/* ========================================================================= */
 .modal {
     display: none; /* Скрыто по умолчанию */
     position: fixed; 
@@ -554,8 +554,7 @@ main.content, .container {
     font-weight: bold;
 }
 
-.close-btn:hover,
-.close-btn:focus {
+.close-btn:hover, .close-btn:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -600,7 +599,48 @@ main.content, .container {
 }
 
 /* ========================================================================= */
-/* 10. АДАПТИВНОСТЬ (MEDIA QUERIES) */
+/* 10. Стили для Рабочего Кабинета
+/* ========================================================================= */
+.cabinet-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.cabinet-nav {
+    flex: 0 0 200px; /* Фиксированная ширина для меню */
+    display: flex;
+    flex-direction: column;
+}
+
+.cabinet-nav .nav-item {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.cabinet-nav .nav-item:hover {
+    background-color: #e9ecef;
+}
+
+.cabinet-nav .nav-item.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.cabinet-content {
+    flex-grow: 1; /* Контент занимает оставшееся место */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* ========================================================================= */
+/* 11. АДАПТИВНОСТЬ (MEDIA QUERIES) */
 /* ========================================================================= */
 
 /* Применимо для экранов шириной 768px и меньше (планшеты и телефоны) */
@@ -660,5 +700,19 @@ main.content, .container {
     
     .main-controls {
         padding: 10px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .cabinet-layout {
+        flex-direction: column;
+    }
+    .cabinet-nav {
+        flex: auto; /* На мобильных меню занимает всю ширину */
+        flex-direction: row; /* Навигация горизонтально */
+        overflow-x: auto; /* Если много пунктов, появляется прокрутка */
+    }
+    .cabinet-nav .nav-item {
+        white-space: nowrap; /* Не переносить текст ссылки */
     }
 }

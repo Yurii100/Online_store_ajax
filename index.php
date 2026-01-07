@@ -12,15 +12,20 @@
     </head>
     <body>
         <?php require './blocks/header.php' ?>
+
         <main class="content container">
+
             <div class="main-controls">
+
                 <div class="site-info">
                     <img src="./img/favicon.png" alt="Логотип" class="logo"> 
                     <span class="slogan">Мы знаем, что вам нужно</span>
                 </div>
+
                 <div class="search-controls">
                     <input type="text" id="search-input" placeholder="Введите название товара...">
                 </div>  
+
                 <div class="user-auth-area">
                     <?php 
                         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0) { // Если пользователь авторизован:
@@ -31,12 +36,18 @@
                             echo ' | <a href="#" id="register-link">Регистрация</a>';
                         }
                     ?>
-                </div>               
+                </div>   
+
             </div>
-            <h1>Наши Товары</h1>    
+
+            <h1>Наши Товары</h1>
+
             <div id="categories-container" class="categories"></div>
+
             <div id="sort-container" class="sort-controls">
+
                 <label for="sort-by">Сортировать по:</label>
+
                 <select id="sort-by">
                     <option value="created_at" data-dir="DESC">Дате (Новые)</option>
                     <option value="created_at" data-dir="ASC">Дате (Старые)</option>
@@ -45,8 +56,11 @@
                     <option value="title" data-dir="ASC">Алфавиту (А-Я)</option>
                     <option value="title" data-dir="DESC">Алфавиту (Я-А)</option>
                 </select>
+                
             </div>
+
             <div id="products-container" class="products"></div>
+
             <div id="pagination-container" class="pagination"></div>
         </main>
         <?php require './blocks/modals.php' ?>
