@@ -32,7 +32,7 @@ $(document).ready(function() { // 2. Инициализация: Загрузк�
                 $contentContainer.html('<p class="error-message">Не удалось загрузить данные для раздела "' + sectionName + '".</p>');
             }
         });
-    }
+    };
 
     $(document).on('click', '.cabinet-nav .nav-item', function(e) { // 1. Обработчик клика по меню навигации
         e.preventDefault();
@@ -44,6 +44,37 @@ $(document).ready(function() { // 2. Инициализация: Загрузк�
         $this.addClass('active');
         
         loadCabinetSection(section); // Загружаем новый раздел
+    });
+
+    $(document).on('submit', '#update-settings-form', function(e) { // Обработчик сохранения настроек (появится после загрузки контента)
+        e.preventDefault();
+        const $form = $(this);
+        const $message = $('#settings-message');
+        
+        $message.text('Сохранение...');
+        
+        $.ajax({
+            url: 'ajax/update_settings.php', // Нам нужно будет создать этот файл!
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $message.text(response.message).css('color', 'green');
+                    
+                    if (response.reload_required) { // Обновляем имя в сессии и перезагружаем профиль, чтобы увидеть изменения
+                        setTimeout(function() {
+                            loadCabinetSection('profile'); // Перезагружаем профиль для отображения нового имени
+                        }, 1000);
+                    }
+                } else {
+                    $message.text(response.message).css('color', 'red');
+                }
+            },
+            error: function() {
+                $message.text('Ошибка связи с сервером.').css('color', 'red');
+            }
+        });
     });
 
     loadCabinetSection('profile');

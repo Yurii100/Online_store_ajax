@@ -164,6 +164,53 @@ $(document).ready(function() {
         });
     };
 
+    function loadCheckoutSummary() {
+        const $summaryContainer = $('#cart-summary-items');
+        const $totalDisplay = $('#checkout-total');
+        const $placeOrderBtn = $('#place-order-btn');
+    
+        // Сначала блокируем кнопку
+        $placeOrderBtn.prop('disabled', true).text('Загрузка...');
+        $summaryContainer.html('<p>Загрузка сводки заказа...</p>');
+
+        $.ajax({
+            url: 'ajax/get_cart_summary.php', // Мы создадим этот файл далее
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success && response.items.length > 0) {
+                    
+                    // 1. Отображение списка товаров
+                    let html = '<ul>';
+                    response.items.forEach(item => {
+                        html += `
+                            <li>
+                                ${item.title} (x${item.quantity}) — 
+                                <strong>${item.total_price.toFixed(2)} USD.</strong>
+                            </li>
+                        `;
+                    });
+                    html += '</ul>';
+                    
+                    $summaryContainer.html(html);
+
+                    // 2. Отображение общей суммы и разблокировка кнопки
+                    $totalDisplay.text(response.total_sum.toFixed(2) + ' USD.');
+                    $placeOrderBtn.prop('disabled', false).text('Подтвердить заказ');
+
+                } else { // Корзина пуста
+                    $summaryContainer.html('<p class="error-message">Корзина пуста. Добавьте товары, чтобы оформить заказ.</p>');
+                    $totalDisplay.text('0.00 USD.');
+                    $placeOrderBtn.prop('disabled', true).text('Корзина пуста');
+                }
+            },
+            error: function() {
+                $summaryContainer.html('<p class="error-message">Не удалось загрузить данные корзины.</p>');
+                $placeOrderBtn.prop('disabled', true).text('Ошибка загрузки');
+            }
+        });
+    };
+
     $('#sort-by').on('change', function() {
         // Получаем выбранный <option>
         let selectedOption = $(this).find('option:selected'); 
@@ -180,8 +227,7 @@ $(document).ready(function() {
         loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch);
     });
 
-    // ОБРАБОТЧИК ПОИСКА "НА ЛЕТУ"
-    $('#search-input').on('input', function() {
+    $('#search-input').on('input', function() { // ОБРАБОТЧИК ПОИСКА "НА ЛЕТУ"
         // 1. Очищаем предыдущий таймер, если он был установлен
         clearTimeout(searchTimeout);
 
@@ -198,6 +244,45 @@ $(document).ready(function() {
         }, 500); // Задержка в 0.5 секунды
     });
 
+    $('#checkout-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        const $form = $(this);
+        const $btn = $('#place-order-btn');
+        const $message = $('#checkout-message');
+        
+        $btn.prop('disabled', true).text('Обработка...');
+        $message.html('');
+
+        $.ajax({
+            url: 'ajax/place_order.php', // Мы создадим этот файл далее
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $message.html(`<p class="success-message">🎉 Ваш заказ №${response.order_id} успешно оформлен!</p>`);
+                    $form.trigger('reset'); // Очистка корзины и формы
+                    loadCheckoutSummary(); // Перезагрузка сводки, чтобы показать пустую корзину
+                    
+                    // Вы можете перенаправить пользователя на страницу "Спасибо"
+                    // setTimeout(() => {
+                    //     window.location.href = 'thankyou.php?order=' + response.order_id;
+                    // }, 2000);
+                    
+                } else {
+                    $message.html('<p class="error-message">Ошибка: ' + (response.message || 'Неизвестная ошибка.') + '</p>');
+                    $btn.prop('disabled', false).text('Повторить попытку');
+                }
+            },
+            error: function() {
+                $message.html('<p class="error-message">Ошибка связи с сервером при оформлении заказа.</p>');
+                $btn.prop('disabled', false).text('Повторить попытку');
+            }
+        });
+    });
+
     loadCategories(); // Загрузка и привязка категорий
     loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch); // Первоначальная загрузка при открытии страницы (страница 1)
+    loadCheckoutSummary();
 });
