@@ -37,7 +37,8 @@ $product_ids = array_keys($cart_items);
 try {
     // Создаем строку плейсхолдеров
     $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
-    $stmt = $pdo->prepare("SELECT id, title, price FROM products WHERE id IN ($placeholders)");
+    $sql = "SELECT id, title, price FROM products WHERE id IN ($placeholders)";
+    $stmt = $pdo->prepare($sql);
     $stmt->execute($product_ids);
     $products = $stmt->fetchAll(PDO::FETCH_KEY_PAIR | PDO::FETCH_ASSOC);
 

@@ -1,4 +1,5 @@
 <?php require_once './lib/mysql.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,7 +30,7 @@
                 <div class="user-auth-area">
                     <?php 
                         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0) { // Если пользователь авторизован:
-                            echo '<a href="#" class="user-cabinet-link">Рабочий кабинет</a>';
+                            echo '<a href="./cabinet.php" class="user-cabinet-link">Рабочий кабинет</a>';
                             echo ' | <a href="#" id="logout-link">Выход</a>'; 
                         } else { // Если пользователь не авторизован:
                             echo '<a href="#" id="login-link">Вход</a>';

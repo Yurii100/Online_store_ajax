@@ -264,12 +264,6 @@ $(document).ready(function() {
                     $message.html(`<p class="success-message">🎉 Ваш заказ №${response.order_id} успешно оформлен!</p>`);
                     $form.trigger('reset'); // Очистка корзины и формы
                     loadCheckoutSummary(); // Перезагрузка сводки, чтобы показать пустую корзину
-                    
-                    // Вы можете перенаправить пользователя на страницу "Спасибо"
-                    // setTimeout(() => {
-                    //     window.location.href = 'thankyou.php?order=' + response.order_id;
-                    // }, 2000);
-                    
                 } else {
                     $message.html('<p class="error-message">Ошибка: ' + (response.message || 'Неизвестная ошибка.') + '</p>');
                     $btn.prop('disabled', false).text('Повторить попытку');
@@ -280,6 +274,10 @@ $(document).ready(function() {
                 $btn.prop('disabled', false).text('Повторить попытку');
             }
         });
+    });
+
+    $(document).on('click', '.checkout-btn', function() {
+        window.location.href = './checkout.php'; // Просто перенаправляем пользователя на страницу оформления заказа
     });
 
     loadCategories(); // Загрузка и привязка категорий

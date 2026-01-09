@@ -13,7 +13,8 @@ $user_id = $_SESSION['user_id'];
 $orders = [];
 
 try { // Получаем все заказы пользователя
-    $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = :id ORDER BY created_at DESC");
+    $sql = "SELECT * FROM orders WHERE user_id = :id ORDER BY created_at DESC";
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([':id' => $user_id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

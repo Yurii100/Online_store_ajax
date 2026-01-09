@@ -22,9 +22,10 @@ $product_ids = array_keys($cart_items);
 if (!empty($product_ids)) {
     // Создаем строку плейсхолдеров (?, ?, ?)
     $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
+    $sql = "SELECT * FROM products WHERE id IN ($placeholders)";
     
     try {
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
+        $stmt = $pdo->prepare($sql);
         $stmt->execute($product_ids);
         $products = $stmt->fetchAll(PDO::FETCH_KEY_PAIR | PDO::FETCH_ASSOC);
 

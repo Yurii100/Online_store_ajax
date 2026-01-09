@@ -86,8 +86,9 @@
         </form>
         
     </main>
-
+    <?php require './blocks/modals.php' ?>
     <?php require './blocks/footer.php' ?>
     <script src="./js/shop.js"></script>
+    <script src="./js/auth.js"></script>
 </body>
 </html>

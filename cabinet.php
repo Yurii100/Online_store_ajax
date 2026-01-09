@@ -34,9 +34,12 @@
 
             <section id="cabinet-content" class="cabinet-content">
                 <p>Загрузка данных...</p>
-            </section>  
-
+            </section>
         </div>
+
+        <p>
+            <a href="index.php" class="back-link">← Продолжить покупки</a>
+        </p>
     </main>
     <?php require './blocks/footer.php' ?>
     <script src="./js/auth.js"></script>

@@ -96,3 +96,35 @@ $('#register-form').on('submit', function(e) { // Обработка формы 
         }
     });
 });
+
+// -----------------------------------------------------------
+// 3. ЛОГИКА ВЫХОДА (Logout)
+// -----------------------------------------------------------
+
+$(document).on('click', '#logout-link', function(e) { // Обработчик клика по ссылке "Выход". Используем $(document).on() для ссылки, которая создается динамически
+    e.preventDefault(); 
+    
+    const $btn = $(this);
+    
+    // Временно меняем текст
+    const originalText = $btn.text();
+    $btn.text('...');
+
+    $.ajax({
+        url: 'ajax/logout.php',
+        method: 'POST',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {               
+                window.location.reload(); // Перезагружаем всю страницу, чтобы гарантировать, что PHP-логика (например, в header.php или index.php) корректно увидит, что $_SESSION['user_id'] исчез.
+            } else {
+                alert('Произошла ошибка при попытке выхода.');
+                $btn.text(originalText); 
+            }
+        },
+        error: function() {
+            alert('Ошибка связи с сервером. Пожалуйста, попробуйте еще раз.');
+            $btn.text(originalText); 
+        }
+    });
+});
