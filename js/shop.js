@@ -211,6 +211,22 @@ $(document).ready(function() {
         });
     };
 
+    function loadCartCount() { // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ СЧЕТЧИКА В ШАПКЕ
+        $.ajax({
+            url: 'ajax/get_cart_count.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.count !== undefined) { // response.count - это общее количество товаров, которое вернет PHP
+                    $('#cart-count').text(response.count); 
+                }
+            },
+            error: function() { // Ошибку игнорируем, просто оставляем 0
+                console.error("Не удалось загрузить счетчик корзины.");
+            }
+        });
+    };
+
     $('#sort-by').on('change', function() {
         // Получаем выбранный <option>
         let selectedOption = $(this).find('option:selected'); 
@@ -283,4 +299,5 @@ $(document).ready(function() {
     loadCategories(); // Загрузка и привязка категорий
     loadProducts(1, currentCategory, currentSortBy, currentSortDir, currentSearch); // Первоначальная загрузка при открытии страницы (страница 1)
     loadCheckoutSummary();
+    loadCartCount();
 });

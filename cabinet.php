@@ -42,6 +42,7 @@
         </p>
     </main>
     <?php require './blocks/footer.php' ?>
+    <script src="./js/shop.js"></script>
     <script src="./js/auth.js"></script>
     <script src="./js/cabinet.js" defer></script> 
 </body>

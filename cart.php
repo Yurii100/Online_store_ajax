@@ -36,6 +36,6 @@
         </main>
         <script src="./js/shop.js"></script>
         <script src="./js/cart.js"></script>
-        <script>loadCartDetails()</script> <!--Запускаем загрузку корзины при открытии страницы-->
+        <!--<script>loadCartDetails()</script> Запускаем загрузку корзины при открытии страницы-->
     </body>
 </html>
